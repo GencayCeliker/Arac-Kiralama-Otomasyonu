@@ -1,0 +1,364 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="KIRALAMAModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="ARAC">
+          <Key>
+            <PropertyRef Name="AKod" />
+          </Key>
+          <Property Name="AKod" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Marka" Type="nvarchar" MaxLength="50" />
+          <Property Name="Model" Type="int" />
+          <Property Name="Plaka" Type="nvarchar" MaxLength="20" />
+          <Property Name="Fiyat" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="Kirada" Type="bit" />
+        </EntityType>
+        <EntityType Name="KIRA">
+          <Key>
+            <PropertyRef Name="KKod" />
+          </Key>
+          <Property Name="KKod" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MKod" Type="int" />
+          <Property Name="AKod" Type="int" />
+          <Property Name="Tarih" Type="date" />
+          <Property Name="Saat" Type="time" Precision="0" />
+          <Property Name="TeslimTarih" Type="date" />
+          <Property Name="TeslimSaat" Type="time" Precision="0" />
+        </EntityType>
+        <EntityType Name="MUSTERI">
+          <Key>
+            <PropertyRef Name="MKod" />
+          </Key>
+          <Property Name="MKod" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MAd" Type="nvarchar" MaxLength="50" />
+          <Property Name="MSoyad" Type="nvarchar" MaxLength="50" />
+          <Property Name="MTCKimlik" Type="char" MaxLength="11" />
+          <Property Name="MAdres" Type="nvarchar" MaxLength="100" />
+          <Property Name="MTel" Type="nvarchar" MaxLength="20" />
+        </EntityType>
+        <Association Name="FK_Kira_Arac">
+          <End Role="ARAC" Type="Self.ARAC" Multiplicity="0..1" />
+          <End Role="KIRA" Type="Self.KIRA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ARAC">
+              <PropertyRef Name="AKod" />
+            </Principal>
+            <Dependent Role="KIRA">
+              <PropertyRef Name="AKod" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Kira_Musteri">
+          <End Role="MUSTERI" Type="Self.MUSTERI" Multiplicity="0..1" />
+          <End Role="KIRA" Type="Self.KIRA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MUSTERI">
+              <PropertyRef Name="MKod" />
+            </Principal>
+            <Dependent Role="KIRA">
+              <PropertyRef Name="MKod" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="sp_Agetir" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="sp_Kirala" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="sp_Mgetir" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="spAracTeslimAl" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="KKOD" Type="int" Mode="In" />
+          <Parameter Name="AKOD" Type="int" Mode="In" />
+          <Parameter Name="MKOD" Type="int" Mode="In" />
+        </Function>
+        <Function Name="spAracTeslimEt" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="AKOD" Type="int" Mode="In" />
+          <Parameter Name="MKOD" Type="int" Mode="In" />
+        </Function>
+        <Function Name="spPlakaFiltre" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="PARA" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="spTCFiltre" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="TCARA" Type="nvarchar" Mode="In" />
+        </Function>
+        <EntityContainer Name="KIRALAMAModelStoreContainer">
+          <EntitySet Name="ARAC" EntityType="Self.ARAC" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="KIRA" EntityType="Self.KIRA" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MUSTERI" EntityType="Self.MUSTERI" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Kira_Arac" Association="Self.FK_Kira_Arac">
+            <End Role="ARAC" EntitySet="ARAC" />
+            <End Role="KIRA" EntitySet="KIRA" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Kira_Musteri" Association="Self.FK_Kira_Musteri">
+            <End Role="MUSTERI" EntitySet="MUSTERI" />
+            <End Role="KIRA" EntitySet="KIRA" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="KIRALAMAModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="ARAC">
+          <Key>
+            <PropertyRef Name="AKod" />
+          </Key>
+          <Property Name="AKod" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Marka" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Model" Type="Int32" />
+          <Property Name="Plaka" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Fiyat" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="Kirada" Type="Boolean" />
+          <NavigationProperty Name="KIRA" Relationship="Self.FK_Kira_Arac" FromRole="ARAC" ToRole="KIRA" />
+        </EntityType>
+        <EntityType Name="KIRA">
+          <Key>
+            <PropertyRef Name="KKod" />
+          </Key>
+          <Property Name="KKod" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MKod" Type="Int32" />
+          <Property Name="AKod" Type="Int32" />
+          <Property Name="Tarih" Type="DateTime" Precision="0" />
+          <Property Name="Saat" Type="Time" Precision="0" />
+          <Property Name="TeslimTarih" Type="DateTime" Precision="0" />
+          <Property Name="TeslimSaat" Type="Time" Precision="0" />
+          <NavigationProperty Name="ARAC" Relationship="Self.FK_Kira_Arac" FromRole="KIRA" ToRole="ARAC" />
+          <NavigationProperty Name="MUSTERI" Relationship="Self.FK_Kira_Musteri" FromRole="KIRA" ToRole="MUSTERI" />
+        </EntityType>
+        <EntityType Name="MUSTERI">
+          <Key>
+            <PropertyRef Name="MKod" />
+          </Key>
+          <Property Name="MKod" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MAd" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MSoyad" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MTCKimlik" Type="String" MaxLength="11" FixedLength="true" Unicode="false" />
+          <Property Name="MAdres" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="MTel" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="KIRA" Relationship="Self.FK_Kira_Musteri" FromRole="MUSTERI" ToRole="KIRA" />
+        </EntityType>
+        <Association Name="FK_Kira_Arac">
+          <End Role="ARAC" Type="Self.ARAC" Multiplicity="0..1" />
+          <End Role="KIRA" Type="Self.KIRA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ARAC">
+              <PropertyRef Name="AKod" />
+            </Principal>
+            <Dependent Role="KIRA">
+              <PropertyRef Name="AKod" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Kira_Musteri">
+          <End Role="MUSTERI" Type="Self.MUSTERI" Multiplicity="0..1" />
+          <End Role="KIRA" Type="Self.KIRA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MUSTERI">
+              <PropertyRef Name="MKod" />
+            </Principal>
+            <Dependent Role="KIRA">
+              <PropertyRef Name="MKod" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="KIRALAMAEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="ARAC" EntityType="Self.ARAC" />
+          <EntitySet Name="KIRA" EntityType="Self.KIRA" />
+          <EntitySet Name="MUSTERI" EntityType="Self.MUSTERI" />
+          <AssociationSet Name="FK_Kira_Arac" Association="Self.FK_Kira_Arac">
+            <End Role="ARAC" EntitySet="ARAC" />
+            <End Role="KIRA" EntitySet="KIRA" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Kira_Musteri" Association="Self.FK_Kira_Musteri">
+            <End Role="MUSTERI" EntitySet="MUSTERI" />
+            <End Role="KIRA" EntitySet="KIRA" />
+          </AssociationSet>
+          <FunctionImport Name="sp_Agetir" ReturnType="Collection(KIRALAMAModel.sp_Agetir_Result)" />
+          <FunctionImport Name="sp_Kirala" ReturnType="Collection(KIRALAMAModel.sp_Kirala_Result)" />
+          <FunctionImport Name="sp_Mgetir" ReturnType="Collection(KIRALAMAModel.sp_Mgetir_Result)" />
+          <FunctionImport Name="spAracTeslimEt">
+            <Parameter Name="AKOD" Mode="In" Type="Int32" />
+            <Parameter Name="MKOD" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="spAracTeslimAl">
+            <Parameter Name="KKOD" Mode="In" Type="Int32" />
+            <Parameter Name="AKOD" Mode="In" Type="Int32" />
+            <Parameter Name="MKOD" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="spTCFiltre" ReturnType="Collection(KIRALAMAModel.spTCFiltre_Result)">
+          <Parameter Name="TCARA" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="spPlakaFiltre" ReturnType="Collection(KIRALAMAModel.spPlakaFiltre_Result)">
+          <Parameter Name="PARA" Mode="In" Type="String" />
+          </FunctionImport>
+        </EntityContainer>
+        <ComplexType Name="sp_Agetir_Result">
+          <Property Type="Int32" Name="AKod" Nullable="false" />
+          <Property Type="String" Name="Marka" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="Model" Nullable="true" />
+          <Property Type="String" Name="Plaka" Nullable="true" MaxLength="20" />
+          <Property Type="Decimal" Name="Fiyat" Nullable="true" Precision="10" Scale="2" />
+          <Property Type="Boolean" Name="Kirada" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="sp_Kirala_Result">
+          <Property Type="Int32" Name="KKod" Nullable="false" />
+          <Property Type="Int32" Name="MKod" Nullable="true" />
+          <Property Type="Int32" Name="AKod" Nullable="true" />
+          <Property Type="DateTime" Name="Tarih" Nullable="true" />
+          <Property Type="Time" Name="Saat" Nullable="true" />
+          <Property Type="DateTime" Name="TeslimTarih" Nullable="true" />
+          <Property Type="Time" Name="TeslimSaat" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="sp_Mgetir_Result">
+          <Property Type="Int32" Name="MKod" Nullable="false" />
+          <Property Type="String" Name="MAd" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="MSoyad" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="MTCKimlik" Nullable="true" MaxLength="11" />
+          <Property Type="String" Name="MAdres" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="MTel" Nullable="true" MaxLength="20" />
+        </ComplexType>
+        <ComplexType Name="spTCFiltre_Result">
+          <Property Type="Int32" Name="MKod" Nullable="false" />
+          <Property Type="String" Name="MAd" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="MSoyad" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="MTCKimlik" Nullable="true" MaxLength="11" />
+          <Property Type="String" Name="MAdres" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="MTel" Nullable="true" MaxLength="20" />
+        </ComplexType>
+        <ComplexType Name="spPlakaFiltre_Result">
+          <Property Type="Int32" Name="AKod" Nullable="false" />
+          <Property Type="String" Name="Marka" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="Model" Nullable="true" />
+          <Property Type="String" Name="Plaka" Nullable="true" MaxLength="20" />
+          <Property Type="Decimal" Name="Fiyat" Nullable="true" Precision="10" Scale="2" />
+          <Property Type="Boolean" Name="Kirada" Nullable="true" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="KIRALAMAModelStoreContainer" CdmEntityContainer="KIRALAMAEntities1">
+          <EntitySetMapping Name="ARAC">
+            <EntityTypeMapping TypeName="KIRALAMAModel.ARAC">
+              <MappingFragment StoreEntitySet="ARAC">
+                <ScalarProperty Name="AKod" ColumnName="AKod" />
+                <ScalarProperty Name="Marka" ColumnName="Marka" />
+                <ScalarProperty Name="Model" ColumnName="Model" />
+                <ScalarProperty Name="Plaka" ColumnName="Plaka" />
+                <ScalarProperty Name="Fiyat" ColumnName="Fiyat" />
+                <ScalarProperty Name="Kirada" ColumnName="Kirada" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="KIRA">
+            <EntityTypeMapping TypeName="KIRALAMAModel.KIRA">
+              <MappingFragment StoreEntitySet="KIRA">
+                <ScalarProperty Name="KKod" ColumnName="KKod" />
+                <ScalarProperty Name="MKod" ColumnName="MKod" />
+                <ScalarProperty Name="AKod" ColumnName="AKod" />
+                <ScalarProperty Name="Tarih" ColumnName="Tarih" />
+                <ScalarProperty Name="Saat" ColumnName="Saat" />
+                <ScalarProperty Name="TeslimTarih" ColumnName="TeslimTarih" />
+                <ScalarProperty Name="TeslimSaat" ColumnName="TeslimSaat" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MUSTERI">
+            <EntityTypeMapping TypeName="KIRALAMAModel.MUSTERI">
+              <MappingFragment StoreEntitySet="MUSTERI">
+                <ScalarProperty Name="MKod" ColumnName="MKod" />
+                <ScalarProperty Name="MAd" ColumnName="MAd" />
+                <ScalarProperty Name="MSoyad" ColumnName="MSoyad" />
+                <ScalarProperty Name="MTCKimlik" ColumnName="MTCKimlik" />
+                <ScalarProperty Name="MAdres" ColumnName="MAdres" />
+                <ScalarProperty Name="MTel" ColumnName="MTel" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_Agetir" FunctionName="KIRALAMAModel.Store.sp_Agetir">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="KIRALAMAModel.sp_Agetir_Result">
+                <ScalarProperty Name="AKod" ColumnName="AKod" />
+                <ScalarProperty Name="Marka" ColumnName="Marka" />
+                <ScalarProperty Name="Model" ColumnName="Model" />
+                <ScalarProperty Name="Plaka" ColumnName="Plaka" />
+                <ScalarProperty Name="Fiyat" ColumnName="Fiyat" />
+                <ScalarProperty Name="Kirada" ColumnName="Kirada" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_Kirala" FunctionName="KIRALAMAModel.Store.sp_Kirala">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="KIRALAMAModel.sp_Kirala_Result">
+                <ScalarProperty Name="KKod" ColumnName="KKod" />
+                <ScalarProperty Name="MKod" ColumnName="MKod" />
+                <ScalarProperty Name="AKod" ColumnName="AKod" />
+                <ScalarProperty Name="Tarih" ColumnName="Tarih" />
+                <ScalarProperty Name="Saat" ColumnName="Saat" />
+                <ScalarProperty Name="TeslimTarih" ColumnName="TeslimTarih" />
+                <ScalarProperty Name="TeslimSaat" ColumnName="TeslimSaat" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_Mgetir" FunctionName="KIRALAMAModel.Store.sp_Mgetir">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="KIRALAMAModel.sp_Mgetir_Result">
+                <ScalarProperty Name="MKod" ColumnName="MKod" />
+                <ScalarProperty Name="MAd" ColumnName="MAd" />
+                <ScalarProperty Name="MSoyad" ColumnName="MSoyad" />
+                <ScalarProperty Name="MTCKimlik" ColumnName="MTCKimlik" />
+                <ScalarProperty Name="MAdres" ColumnName="MAdres" />
+                <ScalarProperty Name="MTel" ColumnName="MTel" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spAracTeslimEt" FunctionName="KIRALAMAModel.Store.spAracTeslimEt" />
+          <FunctionImportMapping FunctionImportName="spAracTeslimAl" FunctionName="KIRALAMAModel.Store.spAracTeslimAl" />
+          <FunctionImportMapping FunctionImportName="spTCFiltre" FunctionName="KIRALAMAModel.Store.spTCFiltre">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="KIRALAMAModel.spTCFiltre_Result">
+                <ScalarProperty Name="MKod" ColumnName="MKod" />
+                <ScalarProperty Name="MAd" ColumnName="MAd" />
+                <ScalarProperty Name="MSoyad" ColumnName="MSoyad" />
+                <ScalarProperty Name="MTCKimlik" ColumnName="MTCKimlik" />
+                <ScalarProperty Name="MAdres" ColumnName="MAdres" />
+                <ScalarProperty Name="MTel" ColumnName="MTel" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spPlakaFiltre" FunctionName="KIRALAMAModel.Store.spPlakaFiltre">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="KIRALAMAModel.spPlakaFiltre_Result">
+                <ScalarProperty Name="AKod" ColumnName="AKod" />
+                <ScalarProperty Name="Marka" ColumnName="Marka" />
+                <ScalarProperty Name="Model" ColumnName="Model" />
+                <ScalarProperty Name="Plaka" ColumnName="Plaka" />
+                <ScalarProperty Name="Fiyat" ColumnName="Fiyat" />
+                <ScalarProperty Name="Kirada" ColumnName="Kirada" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="true" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
