@@ -46,3 +46,7 @@ Müşteriye araç kiralama ve aracı teslim alma işlemlerini yapan Windows Form
 **Kullanım:** Müşteri ve araç listesinden birer satıra tıklayıp **Kirala**'ya basın. Teslim almak için alttaki kiralama listesinden kaydı seçip **Teslim Al**'a basın.
 
 > Proje klasörünün adı (`deneme`) geliştirme sırasında verilen addır. Örnek verilerdeki TC Kimlik ve telefon numaraları gerçek değildir.
+
+## 📄 Lisans
+
+Bu proje [MIT](LICENSE) lisansı altında sunulmuştur.
