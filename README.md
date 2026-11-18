@@ -11,6 +11,19 @@ Müşteriye araç kiralama ve aracı teslim alma işlemlerini yapan Windows Form
 
 ---
 
+## 🎬 Demo
+
+![demo](docs/demo.gif)
+
+Müşteri TC ile, araç plakayla aranıp seçiliyor; **Kirala** ile kiralama kaydı oluşuyor ve aracın durumu "Kirada" oluyor.
+
+| Kiralama sonrası araç durumu |
+| --- |
+| ![Kiralama sonrası araç durumu](docs/kiralandi.png) |
+
+> Görüntüler, depodaki kurulum script'iyle kurulan örnek veritabanı üzerinde uygulama çalıştırılarak alınmıştır.
+
+
 ## 🚀 Özellikler
 
 - **Müşteri listesi** ve TC Kimlik ile anlık arama (`spTCFiltre`)
